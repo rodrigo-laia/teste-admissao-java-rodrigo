@@ -1,0 +1,39 @@
+# ignore all files starting with . or ~
+.*
+~*
+
+# ignore node
+node_modules/
+_compile/
+_publish/
+_versoes/
+packages/
+
+*bin/
+*obj/
+
+*.exe
+*.bin
+*.vspscc
+*.class
+
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+
+# -------------------------
+# BEGIN Whitelisted Files
+# -------------------------
+
+# track these files, if they exist
+!.gitignore
+!.editorconfig
+!.phpcs.xml.dist

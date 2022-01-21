@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collection;
 
-public class festa
+public class Main
 {  
     public static void main(String[] args) 
 	{
@@ -16,11 +17,10 @@ public class festa
   
     {	    
 	    String Cg = null ;
-        String Cv = null ;
         Integer NCv = 0; 	  
   	
 	    Scanner sc = new Scanner(System.in);
-        ArrayList<convidado> listaConvidados = new ArrayList();      
+        ArrayList<Convidado> listaConvidados = new ArrayList<Convidado>();      
 	    int contador = 0;
         
 		do {
@@ -30,7 +30,7 @@ public class festa
            
 		   if (Cg.isEmpty()) {
 			   
-			   System.out.println("Congregacao Nao foi informado, pressione uma tecla para continuar!");
+			   System.out.println("Congregacao nao foi informado, pressione uma tecla para continuar!");
                sc.nextLine();
 		       
 			   System.out.print("Informe a Congregacao:");
@@ -38,7 +38,7 @@ public class festa
             
 			   if (Cg.isEmpty()) {
 			   
-			   System.out.println("Congregacao Nao foi informado, pressione uma tecla para continuar!");
+			   System.out.println("Congregacao nao foi informado, pressione uma tecla para continuar!");
                sc.nextLine();
 		       
 			   System.out.print("Informe a Congregacao:");
@@ -48,49 +48,19 @@ public class festa
 
                if (Cg.isEmpty()) {
 			   
-			   System.out.println("Congregacao Nao foi informado, vou encerrar!");
+			   System.out.println("Congregacao não foi informado, vou encerrar!");
                sc.nextLine();
 			   System.exit(0);
 			   }
 		      	 		   
 			} 
 		             
-	        System.out.print("Informe o Convidado:");
-            Cv = sc.nextLine(); 
-           
-		    if (Cv.isEmpty()) {						
-		       
-			   System.out.println("Convidado Nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
-		       
-			   System.out.print("Informe o Convidado:");
-               Cv = sc.nextLine(); 
-            
-			   if (Cv.isEmpty()) {
-			   
-			   System.out.println("Convidado Nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
-		       
-			   System.out.print("Informe o Convidado:");
-               Cv = sc.nextLine();
-			   
-			   }
-
-               if (Cv.isEmpty()) {
-			   
-			   System.out.println("Convidado Nao foi informado, vou encerrar!");
-               sc.nextLine();
-			   System.exit(0);
-			   }
-		   
-		    }
-			
 			System.out.print("Informe o Nro Convidados Extras:");
             NCv = Integer.parseInt(sc.nextLine()); 
       		
 			if (NCv == 0) {						
 		       
-			   System.out.println("Nro Convidados Extras Nao foi informado, pressione uma tecla para continuar!");
+			   System.out.println("Nro Convidados Extras nao foi informado, pressione uma tecla para continuar!");
                sc.nextLine();
 		       
 			   System.out.print("Informe o Nro Convidados Extras:");
@@ -108,14 +78,14 @@ public class festa
 
                if (NCv == 0) {
 			   
-			   System.out.println("Nro Convidados Extras Nao foi informado, vou encerrar!");
+			   System.out.println("Nro Convidados Extras nao foi informado, vou encerrar!");
                sc.nextLine();
 			   System.exit(0);
 			   }
 		   
 		    }
 	
-         	listaConvidados.add(new convidado(Cg,Cv,NCv));
+         	listaConvidados.add(new Convidado(Cg,NCv));
 		    contador = contador + 1;
  			
 			System.out.println("");
@@ -132,11 +102,15 @@ public class festa
                 sc.nextLine();
                 System.exit(0);			   
   		        }else{
-                System.out.println("");					
-				System.out.println("Lista de Convidados por Congregacao.");
-                exibir(listaConvidados);
+                
+				System.out.println("");					
+				System.out.println("Lista de Convidados por Congregacao:");
+                
+				imprimirConvidadosAgrupados(convidadosPorCongregacao(listaConvidados));
+				
 				listaConvidados.clear(); 
-                System.out.println("Fim da lista.");
+                
+				System.out.println("Fim da lista.");
 				System.out.println("");	
 				                			
 				System.out.print("Deseja continuar usando a aplicacao? S ou N:");
@@ -157,25 +131,30 @@ public class festa
 	   sc.close();  
        	   
 	}	  
-   	   
-	public static void exibir (ArrayList <convidado> Lista){
-		
-		Map<String,Integer> totalConvidados = new HashMap<String,Integer>();
- 
-	    for (convidado item: Lista){ 
-		
-			if (totalConvidados.containsKey(item.getCongregacao())) {
-               Integer ValorExistente = totalConvidados.get(item.getCongregacao());
-			   totalConvidados.replace(item.getCongregacao(),(1 + ValorExistente + item.getnConvidado())) ;
-            } else {
-            totalConvidados.put(item.getCongregacao(), (1 + item.getnConvidado()));        
-	  	    }
-        }
-		
-		for (Map.Entry<String, Integer> set : totalConvidados.entrySet()) {
+   	
+	private static void imprimirConvidadosAgrupados(Map<String,Integer> convidados)
+	{
+		for (Map.Entry<String, Integer> set : convidados.entrySet()) {
           
            System.out.println(set.getKey() + " = " + set.getValue());
 		   
         }
-   	    }          
+	}
+	
+	private static Map<String,Integer> convidadosPorCongregacao (Collection<Convidado> convidados){
+		
+		Map<String,Integer> totalConvidados = new HashMap<String,Integer>();
+ 
+	    for (Convidado item: convidados){ 
+		
+			if (totalConvidados.containsKey(item.getCongregacao())) {
+               Integer ValorExistente = totalConvidados.get(item.getCongregacao());
+			   totalConvidados.replace(item.getCongregacao(),(1 + ValorExistente + item.getConvidadosExtras())) ;
+            } else {
+            totalConvidados.put(item.getCongregacao(), (1 + item.getConvidadosExtras()));        
+	  	    }
+        }
+
+		return totalConvidados;
+   	}          
 }
