@@ -86,15 +86,8 @@ public class Main
 		   
 		    }
 	
-         	// listaConvidados.add(new convidado(sCg,nNCv));
-		    
-			 Optional<convidado> opt = listaConvidados.stream().filter(i -> i.getCongregacao().equals(sCg)).findAny();
-             if (opt.isPresent()) {                
-		        listaConvidados.add(new convidado(sCg,nNCv));
-			 }else{
-                listaConvidados.add(new convidado(sCg,(nNCv +1)));			     
-			 }
-			
+         	listaConvidados.add(new convidado(sCg,nNCv));
+		    		
 			contador = contador + 1;
  			
 			System.out.println("");
@@ -115,12 +108,11 @@ public class Main
                 
 				System.out.println("");					
 				System.out.println("Lista de Convidados por Congregacao:");                
-	            
+	              
 				Map<String, Integer> sum = listaConvidados.stream()
 				.collect(Collectors.groupingBy(convidado::getCongregacao, Collectors.summingInt(convidado::getConvidadosExtras)));
    
-                System.out.println(sum);
-				
+                				
 				listaConvidados.clear(); 
                 
 				System.out.println("Fim da lista.");
