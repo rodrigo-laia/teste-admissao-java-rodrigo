@@ -7,101 +7,105 @@ import java.util.HashMap;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.Optional;
+
 public class Main
 {  
     public static void main(String[] args) 
 	{
+		
 		convidados();
+		
+		
     }
 	
    public static void convidados()
    
     {	    
-	    String sCg = null ;
-        Integer nNCv = 0; 	  
+	    String congregacao = null;
+        Integer nroConvidado = 0 ; 	  
   	
-	    Scanner sc = new Scanner(System.in);
+	    Scanner scan = new Scanner(System.in);
         ArrayList<convidado> listaConvidados = new ArrayList<convidado>();      
 	    int contador = 0;
         
 		do {
 	       
 		   System.out.print("Informe a Congregacao:");
-           sCg = sc.nextLine(); 
+           congregacao = scan.nextLine(); 
            
-		   if (sCg.isEmpty()) {
+		   if (congregacao.isEmpty()) {
 			   
 			   System.out.println("Congregacao nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
+               scan.nextLine();
 		       
 			   System.out.print("Informe a Congregacao:");
-               sCg = sc.nextLine(); 
+               congregacao = scan.nextLine(); 
             
-			   if (sCg.isEmpty()) {
+			   if (congregacao.isEmpty()) {
 			   
 			   System.out.println("Congregacao nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
+               scan.nextLine();
 		       
 			   System.out.print("Informe a Congregacao:");
-               sCg = sc.nextLine();
+               congregacao = scan.nextLine();
 			   
 			   }
 
-               if (sCg.isEmpty()) {
+               if (congregacao.isEmpty()) {
 			   
 			   System.out.println("Congregacao não foi informado, vou encerrar!");
-               sc.nextLine();
+               scan.nextLine();
 			   System.exit(0);
 			   }
 		      	 		   
 			} 
 		             
 			System.out.print("Informe o Nro Convidados Extras:");
-            nNCv = Integer.parseInt(sc.nextLine()); 
+            nroConvidado = Integer.parseInt(scan.nextLine()); 
       		
-			if (nNCv == 0) {						
+			if (nroConvidado == 0) {						
 		       
 			   System.out.println("Nro Convidados Extras nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
+               scan.nextLine();
 		       
 			   System.out.print("Informe o Nro Convidados Extras:");
-               nNCv = Integer.parseInt(sc.nextLine()); 
+               nroConvidado = Integer.parseInt(scan.nextLine()); 
             
-			   if (nNCv == 0) {
+			   if (nroConvidado == 0) {
 			   
 			   System.out.println("Nro Convidados Extras Nao foi informado, pressione uma tecla para continuar!");
-               sc.nextLine();
+               scan.nextLine();
 		       
 			   System.out.print("Informe o Nro Convidados Extras:");
-               nNCv = Integer.parseInt(sc.nextLine());
+               nroConvidado = Integer.parseInt(scan.nextLine());
 			   
 			   }
 
-               if (nNCv == 0) {
+               if (nroConvidado == 0) {
 			   
 			   System.out.println("Nro Convidados Extras nao foi informado, vou encerrar!");
-               sc.nextLine();
+               scan.nextLine();
 			   System.exit(0);
 			   }
 		   
 		    }
 	
-         	listaConvidados.add(new convidado(sCg,nNCv));
-		    		
+         	listaConvidados.add(new convidado(congregacao,nroConvidado));
+		              
 			contador = contador + 1;
  			
 			System.out.println("");
 			System.out.print("Deseja inserir mais convidados? S ou N:");
-            String sSN = sc.nextLine();
-            String scSN = new String ("S");
+            String insertSN = scan.nextLine();
+            String cinsertSN = new String ("S");
 			
-			if (sSN.equals(scSN)) {
+			if (insertSN.equals(cinsertSN)) {
 			System.out.println("");
 			}else{
 			
 		        if(listaConvidados.isEmpty()){
                 System.out.println("Não existem registros cadastrados,vou encerrar!");
-                sc.nextLine();
+                scan.nextLine();
                 System.exit(0);			   
   		       
  			    }else{
@@ -109,9 +113,9 @@ public class Main
 				System.out.println("");					
 				System.out.println("Lista de Convidados por Congregacao:");                
 	              
-				Map<String, Integer> sum = listaConvidados.stream()
-				.collect(Collectors.groupingBy(convidado::getCongregacao, Collectors.summingInt(convidado::getConvidadosExtras)));
-   
+			    
+				imprimirConvidadosAgrupados(convidadosPorCongregacao(listaConvidados));
+							
                 				
 				listaConvidados.clear(); 
                 
@@ -119,10 +123,10 @@ public class Main
 				System.out.println("");	
 				                			
 				System.out.print("Deseja continuar usando a aplicacao? S ou N:");
-                String sSNf = sc.nextLine();
-                String scSNf = new String ("S");
+                String continueSN = scan.nextLine();
+                String ccontinueSN = new String ("S");
 			
-			    if (sSNf.equals(scSNf)) {
+			    if (continueSN.equals(ccontinueSN)) {
 			    System.out.println("");
 			    }else{
 			    System.exit(0);			   
@@ -133,8 +137,23 @@ public class Main
 			
 	    } while (contador != 0);
 	   	   
-	   sc.close();  
+	   scan.close();  
        	   
 	}	  
-   	             
+    
+	private static void imprimirConvidadosAgrupados(Map<String,List<convidado>> convidados)
+	{
+		
+        convidados.forEach((k,l) -> System.out.println(String.format("Congregacao: %s | Nro Convidados: %s", k, l.stream()
+			                                                                      .mapToInt( x -> x.getConvidadosExtras()).sum() + l.size())));
+    
+	}
+    private  static  Map<String,List<convidado>> convidadosPorCongregacao(Collection <convidado> convidados){
+  
+        Map<String, List<convidado>> groupByCongregacao = convidados.stream().collect(Collectors.groupingBy(convidado::getCongregacao));
+	
+	    return groupByCongregacao;
+	
+    } 
+ 
 }

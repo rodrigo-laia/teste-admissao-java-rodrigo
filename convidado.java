@@ -1,20 +1,20 @@
   public class convidado {
 	  
-	private String scongregacao;
-    private Integer nconvidadosExtras;
+	private String congregacao;
+    private Integer convidadosExtras;
 	
     public static void main(String[] args) 
     {
     }	
-	public convidado(String scongregacao, Integer nconvidadosExtras){	
-		this.scongregacao = scongregacao;
-		this.nconvidadosExtras = nconvidadosExtras;
+	public convidado(String congregacao, Integer convidadosExtras){	
+		this.congregacao = congregacao;
+		this.convidadosExtras = convidadosExtras;
 	}	
 	public String getCongregacao(){
-		return scongregacao;	}
+		return congregacao;	}
 	
 	public Integer getConvidadosExtras()	{
-		return nconvidadosExtras;
+		return convidadosExtras;
 	}
 	
   }
