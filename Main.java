@@ -10,11 +10,9 @@ import java.util.Optional;
 
 public class Main
 {  
-    public static void main(String[] args) 
-	{
+    public static void main(String[] args) 	{
 		
-		convidados();
-		
+		convidados();	
 		
     }
 	
@@ -111,11 +109,10 @@ public class Main
  			    }else{
                 
 				System.out.println("");					
-				System.out.println("Lista de Convidados por Congregacao:");                
-	              
+				System.out.println("Lista de Convidados por Congregacao:");               
 			    
-				imprimirConvidadosAgrupados(convidadosPorCongregacao(listaConvidados));
-							
+				Main ConvidadosCongregacao = new Main();
+				ConvidadosCongregacao.imprimirConvidadosAgrupados(ConvidadosCongregacao.convidadosPorCongregacao(listaConvidados));							
                 				
 				listaConvidados.clear(); 
                 
@@ -140,19 +137,21 @@ public class Main
 	   scan.close();  
        	   
 	}	  
-    
-	private static void imprimirConvidadosAgrupados(Map<String,List<convidado>> convidados)
-	{
-		
-        convidados.forEach((k,l) -> System.out.println(String.format("Congregacao: %s | Nro Convidados: %s", k, l.stream()
-			                                                                      .mapToInt( x -> x.getConvidadosExtras()).sum() + l.size())));
-    
+    	
+	public void imprimirConvidadosAgrupados(Map<String,Integer> convidados)
+	{		
+      convidados.forEach((k,l) -> System.out.println(String.format("Congregacao: %s | Nro Convidados: %s", k, l)));			
 	}
-    private  static  Map<String,List<convidado>> convidadosPorCongregacao(Collection <convidado> convidados){
+	
+    public  Map<String,Integer> convidadosPorCongregacao(Collection <convidado> convidados)
+	{
+  	    Map<String,Integer> resultado = new HashMap<String,Integer>();
   
         Map<String, List<convidado>> groupByCongregacao = convidados.stream().collect(Collectors.groupingBy(convidado::getCongregacao));
-	
-	    return groupByCongregacao;
+		
+		groupByCongregacao.forEach((k,l) ->  resultado.put(k,l.stream().mapToInt( x -> x.getConvidadosExtras()).sum() + l.size()));
+	    		
+	    return resultado;
 	
     } 
  
