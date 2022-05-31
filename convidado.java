@@ -1,17 +1,24 @@
-  public class convidado {
+ /*
+ /classe dados dos convidados 
+ /
+ */
+ public class Convidado {
 	  
 	private String congregacao;
-    private Integer convidadosExtras;
-	
-    public static void main(String[] args) 
+    private Integer convidadosExtras;	
+    
+	public static void main(String[] args) 
     {
-    }	
-	public convidado(String congregacao, Integer convidadosExtras){	
+    }
+
+	public Convidado(String congregacao, Integer convidadosExtras){	
 		this.congregacao = congregacao;
 		this.convidadosExtras = convidadosExtras;
 	}	
+
 	public String getCongregacao(){
-		return congregacao;	}
+		return congregacao;
+	}
 	
 	public Integer getConvidadosExtras()	{
 		return convidadosExtras;

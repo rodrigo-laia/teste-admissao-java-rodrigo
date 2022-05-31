@@ -1,4 +1,10 @@
-import java.util.Arrays;
+
+/*
+ /projeto de lista de convidados para eventos 
+ /na congregaçao 
+ /criado po rodrigo
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +12,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import java.util.Optional;
 
 public class Main
 {  
@@ -25,7 +30,7 @@ public class Main
         Integer nroConvidado = 0 ; 	  
   	
 	    Scanner scan = new Scanner(System.in);
-        ArrayList<convidado> listaConvidados = new ArrayList<convidado>();      
+        ArrayList<Convidado> listaConvidados = new ArrayList<Convidado>();      
 	    int contador = 0;
         
 		do {
@@ -90,7 +95,7 @@ public class Main
 		   
 		    }
 	
-         	listaConvidados.add(new convidado(congregacao,nroConvidado));
+         	listaConvidados.add(new Convidado(congregacao,nroConvidado));
 		              
 			contador = contador + 1;
  			
@@ -145,11 +150,11 @@ public class Main
       convidados.forEach((k,l) -> System.out.println(String.format("Congregacao: %s | Nro Convidados: %s", k, l)));			
 	}
 	
-    public  Map<String,Integer> convidadosPorCongregacao(Collection <convidado> convidados)
+    public  Map<String,Integer> convidadosPorCongregacao(Collection <Convidado> convidados)
 	{
   	    Map<String,Integer> resultado = new HashMap<String,Integer>();
   
-        Map<String, List<convidado>> groupByCongregacao = convidados.stream().collect(Collectors.groupingBy(convidado::getCongregacao));
+        Map<String, List<Convidado>> groupByCongregacao = convidados.stream().collect(Collectors.groupingBy(Convidado::getCongregacao));
 		
 		groupByCongregacao.forEach((k,l) ->  resultado.put(k,l.stream().mapToInt( x -> x.getConvidadosExtras()).sum() + l.size()));
 	    		
